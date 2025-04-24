@@ -1,0 +1,13 @@
+body{
+	  background-color: #f0f0f0;
+  font-family: Arial, sans-serif;
+  margin: 0;
+padding: 0;
+overflow-x: hidden;
+}
+.bts1 button{
+	padding: 10px 15px;
+	margin-left: 15px;
+	border: 1px solid hsla(0, 0%, 0%, 0.186);
+   font-weight: 20px;
+}
