@@ -1,5 +1,5 @@
 body{
-	  background-color: #f0f0f0;
+	  background-color: hwb(0 94% 6%);
   font-family: Arial, sans-serif;
   margin: 0;
 padding: 0;
@@ -11,3 +11,15 @@ overflow-x: hidden;
 	border: 1px solid hsla(0, 0%, 0%, 0.186);
    font-weight: 20px;
 }
+/* products */
+.product1 h5{
+	color:hwb(0 0% 100% / 0.936);
+	margin: 0;
+	padding: 0;
+
+}
+/* .cards{
+	  display: flex;
+  justify-content: space-evenly;
+  padding-left: 20px;
+} */

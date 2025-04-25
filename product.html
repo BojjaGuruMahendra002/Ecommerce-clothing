@@ -39,19 +39,12 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <div class="position-relative text-white">
-    <img src="./assets/images/main.png.jpg" class="img-fluid" alt="Main Banner">
-    <div class="position-absolute top-50 start-0 translate-middle-y ps-5">
-      <h1>New Season Arrivals</h1>
-      <h3>This is a wider card with supporting text below as a natural lead-in to additional content.<br>Content is a little bit longer.</h3>
-    </div>
-  </div>
+  
 
   <!-- Latest Products Title -->
-  <div class="container-fluid shadow-sm">
-    <div class="text-center mt-5">
-      <h1>Latest Products</h1>
+  <div class="c1 container-fluid shadow-sm">
+    <div class="text-center mt-5 ">
+      <h1 class=" text-dark">Latest Products</h1>
     </div>
   </div>
 
@@ -106,11 +99,11 @@ const shortDescription = product.description.length > 80
         productCard.className = 'col-md-4 mb-4';
 
         productCard.innerHTML = `
-          <div class="card h-100">
+          <div class=" card h-100">
             <img src="${product.image}" class="card-img-top p-3" alt="${product.title}" style="height: 300px; object-fit: contain;">
-            <div class="card-body">
-              <h5 class="card-title">${shortTitle}</h5>
-              <p class="card-text text-center py-2">${shortDescription}</p>
+            <div class="product1 card-body">
+              <h5 class="card-title m-0">${shortTitle}</h5>
+              <p class="card-text text-center py-0">${shortDescription}</p>
               <p class="card-text border text-center py-2">$${product.price}</p>
               <button class="btn btn-dark">Details</button>
               <button class="btn btn-dark">Add to Cart</button>
