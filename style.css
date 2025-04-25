@@ -23,7 +23,15 @@ overflow-x: hidden;
   justify-content: space-evenly;
   padding-left: 20px;
 } */
- 
+ .A a{
+	text-decoration: none;
+	border: 1px solid hsla(0, 0%, 0%, 0.186);
+	border-radius: 5px;
+	padding: 10px 15px;
+	margin-left: 15px;
+	color: black;
+
+ }
 .login label{
 	font-size: 20px;
 	text-align: left;
