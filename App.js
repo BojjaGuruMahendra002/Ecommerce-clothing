@@ -17,11 +17,11 @@ function displayProducts(products) {
 
   products.forEach(product => {
 	const shortTitle = product.title.length > 40 
-? product.title.substring(0, 40) + "..." 
+? product.title.substring(0, 20) + "..." 
 : product.title;
 
 const shortDescription = product.description.length > 80 
-? product.description.substring(0, 80) + "..." 
+? product.description.substring(0, 60) + "..." 
 : product.description;
 
 
@@ -35,8 +35,10 @@ const shortDescription = product.description.length > 80
 		  <h5 class="card-title">${shortTitle}</h5>
 		  <p class="card-text text-center py-2">${shortDescription}</p>
 		  <p class="card-text border text-center py-2">$${product.price}</p>
-		  <button class="btn btn-dark">Details</button>
-		  <button class="btn btn-dark">Add to Cart</button>
+		  <div class="text-center">
+		  <button class="btn btn-dark text-center">Details</button>
+		  <button class="btn btn-dark text-center">Add to Cart</button>
+		  </div>
 		</div>
 	  </div>
 	`;
