@@ -23,3 +23,30 @@ overflow-x: hidden;
   justify-content: space-evenly;
   padding-left: 20px;
 } */
+ 
+.login label{
+	font-size: 20px;
+	text-align: left;
+}
+ .login input{
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.281);
+	padding: 10px 15px;
+	margin-top: 5px;
+	width: 25%;
+ }
+
+ .login textarea{
+	border-radius: 5px;
+	border: 1px solid rgba(0, 0, 0, 0.281);
+	padding: 10px 15px;
+	margin-top: 5px;
+	width: 25%;
+ }
+ .login button{
+	background-color: rgba(0, 0, 0, 0.682);
+	color: white;
+	padding: 10px 15px;
+	border-radius: 5px;
+	border: none;
+ }
