@@ -37,7 +37,7 @@ const shortDescription = product.description.length > 80
 		  <p class="card-text border text-center py-2">$${product.price}</p>
 		  <div class="text-center">
 		  <button class="btn btn-dark text-center">Details</button>
-		  <button class="btn btn-dark text-center">Add to Cart</button>
+		  <button onclick="addProduct()"class="btn btn-dark text-center">Add to Cart</button>
 		  </div>
 		</div>
 	  </div>
@@ -56,3 +56,24 @@ function filterByCategory(category) {
 }
 
 fetchProducts();
+
+function addProduct() {
+    const product = document.getElementById("productInput").value;
+
+    if (product.trim() === "") {
+      alert("Please enter a product name");
+      return;
+    }
+
+    // Check if there's already a product list
+    let products = JSON.parse(localStorage.getItem("products")) || [];
+
+    // Add the new product to the list
+    products.push(product);
+
+    // Save back to localStorage
+    localStorage.setItem("products", JSON.stringify(products));
+
+    alert(`Product "${product}" added!`);
+    document.getElementById("productInput").value = ""; // clear input
+  }
