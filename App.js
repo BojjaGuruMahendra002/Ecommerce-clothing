@@ -1,3 +1,4 @@
+
 const productApiUrl = 'https://fakestoreapi.com/products';
 let allProducts = [];
 
@@ -16,14 +17,8 @@ function displayProducts(products) {
   productList.innerHTML = '';
 
   products.forEach(product => {
-	const shortTitle = product.title.length > 40 
-? product.title.substring(0, 20) + "..." 
-: product.title;
-
-const shortDescription = product.description.length > 80 
-? product.description.substring(0, 60) + "..." 
-: product.description;
-
+	const shortTitle = product.title.length > 40 ? product.title.substring(0, 20) + "..." : product.title;
+	const shortDescription = product.description.length > 80 ? product.description.substring(0, 60) + "..." : product.description;
 
 	const productCard = document.createElement('div');
 	productCard.className = 'col-md-4 mb-4';
@@ -36,8 +31,8 @@ const shortDescription = product.description.length > 80
 		  <p class="card-text text-center py-2">${shortDescription}</p>
 		  <p class="card-text border text-center py-2">$${product.price}</p>
 		  <div class="text-center">
-		  <button class="btn btn-dark text-center">Details</button>
-		  <button onclick="addProduct()"class="btn btn-dark text-center">Add to Cart</button>
+			<button class="btn btn-dark">Details</button>
+			<button class="btn btn-dark" onclick='addToCart(${product.id})'>Add to Cart</button>
 		  </div>
 		</div>
 	  </div>
@@ -55,25 +50,23 @@ function filterByCategory(category) {
   }
 }
 
+function addToCart(productId) {
+  const product = allProducts.find(p => p.id === productId);
+  if (!product) return;
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  cart.push(product);
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartCount();
+  alert(`"${product.title}" added to cart!`);
+}
+
+function updateCartCount() {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  document.getElementById("cart-count").textContent = cart.length;
+}
+
+// Load on start
 fetchProducts();
+updateCartCount();
 
-function addProduct() {
-    const product = document.getElementById("productInput").value;
-
-    if (product.trim() === "") {
-      alert("Please enter a product name");
-      return;
-    }
-
-    // Check if there's already a product list
-    let products = JSON.parse(localStorage.getItem("products")) || [];
-
-    // Add the new product to the list
-    products.push(product);
-
-    // Save back to localStorage
-    localStorage.setItem("products", JSON.stringify(products));
-
-    alert(`Product "${product}" added!`);
-    document.getElementById("productInput").value = ""; // clear input
-  }
