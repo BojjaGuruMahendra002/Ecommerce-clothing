@@ -9,37 +9,109 @@
   <link rel="stylesheet" href="style.css"/>
   <style>
     #cart-container {
-      width: 100%;
-    height: 300px;
-    display: flex;
-    justify-content: space-between;
+      width: 80%;
+      margin: 0 auto;
     }
+
+    .order-summary {
+      background-color: #f8f9fa;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
     .card-img-top {
       height: 150px;
       object-fit: contain;
     }
-   .cap h5{
+
+    .cap h5 {
       display: flex;
       justify-content: center;
       align-items: center;
+    }
 
-   }
-   .card-body {
+    .card-body, .card-body1 {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       height: 100%;
     }
-     .card-body1{
+
+    /* Custom Layout for Cart Items */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+
+    }
+
+    .cart-item img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+    }
+
+    .cart-item-title {
+      flex-grow: 1;
+      text-align: center;
+      font-size: 1.1rem;
+    }
+
+    .cart-item-quantity {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cart-item-quantity span {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+    }
+
+    .cart-item-quantity button {
+      width: 30px;
+      height: 30px;
+      font-size: 1.2rem;
+    }
+
+    /* Hide the 'Continue Shopping' button if the cart has items */
+    #continue-shopping {
+      display: block;
+    }
+
+    /* Hide Continue Shopping when the cart has items */
+    #continue-shopping.hide {
+      display: none;
+    }
+
+    /* Add a border to the cart items list */
+    #cart-items {
+     
+      padding-top: 20px;
+    }
+
+    /* Adjusting Flex Layout for Cart Item */
+    .cart-item .d-flex {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .cart-item .ms-3 {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      height: 100%;
     }
-   
-    /* Flex Scrollable Row */
-  
-   
+
+    .cart-item .d-flex .card-title {
+      text-align: left;
+    }
+
+    /* Aligning the quantity buttons and price to the right */
+    .cart-item .d-flex .d-flex.flex-column {
+      align-items: end;
+    }
   </style>
 </head>
 <body style="background-color: white;">
@@ -58,7 +130,7 @@
       </div>
       <div class="d-flex">
         <div class="A d-flex">
-          <a href="login.html" class=" h px-2"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+          <a href="login.html" class="h px-2"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
           <a href="contact.html" class="h px-2"><i class="fas fa-user-plus"></i> Register</a>
           <a href="#" class="bg-dark text-white px-2 py-1 rounded"><i class="fa-solid fa-cart-shopping text-white"></i> Cart</a>
         </div>
@@ -77,35 +149,38 @@
   <div class="container my-5" id="cart-container">
     <h3 class="text-center text-muted" id="empty-msg">Your Cart is Empty</h3>
 
-    <!-- Cart Items (Row Scroll) -->
-    <div id="cart-items"></div>
+    <div class="row">
+      <!-- Cart Items -->
+      <div class="col-md-8" id="cart-items"></div>
 
-    <!-- Order Summary -->
-    <div class="order-summary mt-4">
-      <h4 class="text-muted text-right">Order Summary</h4>
-      <ul class="list-group">
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Total Products</span>
-          <span id="total-products" class="ml-auto">0</span>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Shipping</span>
-          <span id="shipping" class="ml-auto">10</span> 
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Total Amount</span>
-          <span id="total-amount" class="ml-auto mx-2">0</span>
-        </li>
-      </ul>
-      <a href="checkout.html" class="btn btn-dark mt-2">Proceed to Checkout</a>
-
+      <!-- Order Summary -->
+      <div class="col-md-4">
+        <div class="order-summary mt-4 mt-md-0">
+          <h4 class="text-muted">Order Summary</h4>
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total Products</span>
+              <span id="total-products">0</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Shipping</span>
+              <span id="shipping">10</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+              <span>Total Amount</span>
+              <span id="total-amount" class="mx-2">0</span>
+            </li>
+          </ul>
+          <a href="checkout.html" class="btn btn-dark mt-2 w-100">Proceed to Checkout</a>
+        </div>
+      </div>
     </div>
-  </div>
 
-    <div class="text-center mt-4">
+    <!-- Continue Shopping Button -->
+    <div class="text-center mt-4" id="continue-shopping">
       <a href="product.html" class="btn btn-dark">Continue Shopping</a><br><br>
     </div>
-  
+  </div>
 
   <!-- Footer -->
   <div class="d text-center mt-5">
@@ -113,7 +188,97 @@
   </div>
 
   <!-- Script -->
-  <script src="App2.js"> </script>
+  <script>
+    function displayCartItems() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const cartItemsContainer = document.getElementById("cart-items");
+      const emptyMsg = document.getElementById("empty-msg");
+      const totalProducts = document.getElementById("total-products");
+      const shipping = document.getElementById("shipping");
+      const totalAmount = document.getElementById("total-amount");
+      const continueShoppingBtn = document.getElementById("continue-shopping");
+
+      cartItemsContainer.innerHTML = ""; // clear old items
+
+      if (cart.length === 0) {
+        emptyMsg.style.display = "block";
+        totalProducts.textContent = 0;
+        totalAmount.textContent = "0";
+        continueShoppingBtn.classList.remove("hide");
+        return;
+      } else {
+        emptyMsg.style.display = "none";
+        continueShoppingBtn.classList.add("hide");
+      }
+
+      let totalPrice = 0;
+      let totalItems = 0;
+
+      cart.forEach((product, index) => {
+        const item = document.createElement("div");
+        item.className = "cart-item";
+
+        const quantity = product.quantity || 1;
+        totalItems += quantity;
+        totalPrice += (product.price * quantity);
+
+        item.innerHTML = `
+      
+  <div class="d-flex align-items-center p-3 rounded mb-3 border">
+    <!-- Product Image -->
+    <img src="${product.image}" class="card-img-top" style="width: 150px; height: 150px; object-fit: contain;" alt="${product.title}">
+
+    <!-- Product Title and Quantity Controls -->
+    <div class="ms-3 flex-grow-1 d-flex justify-content-between">
+      <div class="flex-grow-1">
+        <h5 class="card-title mb-0 mx-3 my-2">${product.title}</h5>
+      </div>
+
+      <!-- Quantity buttons and price display aligned at the end -->
+      <div class="d-flex flex-column align-items-end">
+        <div class="d-flex justify-content-end mx-3">
+          <button class="btn btn-outline-secondary btn-sm me-2" onclick="decreaseQuantity(${index})">-</button>
+          <span id="quantity-${index}" class="fw-bold">${quantity}</span>
+          <button class="btn btn-outline-secondary btn-sm ms-2" onclick="increaseQuantity(${index})">+</button>
+        </div>
+
+        <p class="card-text text-end fw-bold mt-3">$${(product.price * quantity).toFixed(2)}</p>
+      </div>
+    </div>
+  </div>
+`;
+
+        cartItemsContainer.appendChild(item);
+      });
+
+      const shippingFee = 10;
+      const totalAmountValue = totalPrice + shippingFee;
+
+      totalProducts.textContent = totalItems;
+      shipping.textContent = shippingFee;
+      totalAmount.textContent = totalAmountValue.toFixed(2);
+    }
+
+    function increaseQuantity(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart[index].quantity = (cart[index].quantity || 1) + 1;
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCartItems();
+    }
+
+    function decreaseQuantity(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      if (cart[index].quantity && cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+      localStorage.setItem("cart", JSON.stringify(cart));
+      displayCartItems();
+    }
+
+    displayCartItems();
+  </script>
 
 </body>
 </html>
