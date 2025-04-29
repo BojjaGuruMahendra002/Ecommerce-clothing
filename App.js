@@ -70,3 +70,4 @@ function updateCartCount() {
 fetchProducts();
 updateCartCount();
 
+// cart
